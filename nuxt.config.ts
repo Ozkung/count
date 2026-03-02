@@ -1,8 +1,19 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
-  devtools: { enabled: true },
+  devtools: { enabled: false },
   modules: ["vuetify-nuxt-module", "@sidebase/nuxt-auth", "nuxt-countdown"],
+  app: {
+    head: {
+      title: "CSTD",
+      meta: [
+        { name: "viewport", content: "width=device-width, initial-scale=1" },
+      ],
+      link: [
+        { rel: 'icon', type: 'image/x-icon', href: 'icon-logo.png' },
+      ],
+    },
+  },
   vite: {
     build: {
       chunkSizeWarningLimit: 2000,
