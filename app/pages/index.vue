@@ -1,7 +1,15 @@
 <template>
   <div>
-    <div style="width: 100%;padding: 20px;display: flex;justify-content: flex-end;margin-bottom: -70px;">
-      <img src="/LogoCSDF.png" width="120px">
+    <div
+      style="
+        width: 100%;
+        padding: 20px;
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: -70px;
+      "
+    >
+      <img src="/LogoCSDF.png" width="120px" />
     </div>
     <div class="hero-container">
       <div class="animated-background"></div>
@@ -16,8 +24,12 @@
         </div>
 
         <div v-else-if="targetEvent" class="event-showcase">
-          <div class="event-header" style="background-color: transparent;">
-            <img src="/Banner.png" width="60%" style="background-color: transparent;">
+          <div class="event-header" style="background-color: transparent">
+            <img
+              src="/Banner.png"
+              width="60%"
+              style="background-color: transparent"
+            />
             <!-- <h1 class="event-title">{{ targetEvent.title || targetEvent.name || 'Upcoming Event' }}</h1> -->
             <!-- Show the token query if available -->
             <!-- <div>
@@ -25,9 +37,11 @@
             </div> -->
           </div>
           <div class="countdown-wrapper">
-            <Countdown :date="moment(targetEvent.endDate).toDate()" v-slot="{ days, hours, minutes, seconds }">
+            <Countdown
+              :date="moment(targetEvent.endDate).toDate()"
+              v-slot="{ days, hours, minutes, seconds }"
+            >
               <div class="countdown-grid">
-
                 <div class="time-card">
                   <div class="time-value">{{ formatTime(days) }}</div>
                   <div class="time-label">Days</div>
@@ -47,37 +61,76 @@
                   <div class="time-value">{{ formatTime(seconds) }}</div>
                   <div class="time-label">Seconds</div>
                 </div>
-
               </div>
             </Countdown>
 
             <ClientOnly>
-              <div class="progress-section mt-8" v-if="targetEvent.startDate && targetEvent.endDate">
+              <div
+                class="progress-section mt-8"
+                v-if="targetEvent.startDate && targetEvent.endDate"
+              >
                 <div class="progress-labels">
-                  <span>{{ moment(targetEvent.startDate).format('MMM D, YYYY HH:mm') }}</span>
-                  <span class="progress-percentage">{{ progressPercentage.toFixed(5) }}%</span>
-                  <span>{{ moment(targetEvent.endDate).format('MMM D, YYYY HH:mm') }}</span>
+                  <span>{{
+                    moment(targetEvent.startDate).format("MMM D, YYYY HH:mm")
+                  }}</span>
+                  <span class="progress-percentage"
+                    >{{ progressPercentage.toFixed(5) }}%</span
+                  >
+                  <span>{{
+                    moment(targetEvent.endDate).format("MMM D, YYYY HH:mm")
+                  }}</span>
                 </div>
                 <div class="custom-progress">
-                  <div class="custom-progress-fill" :style="{ width: progressPercentage + '%' }"></div>
+                  <div
+                    class="custom-progress-fill"
+                    :style="{ width: progressPercentage + '%' }"
+                  ></div>
                 </div>
               </div>
             </ClientOnly>
 
-            <div class="mt-8 d-flex flex-column justify-center">
-              <v-text-field class="mx-auto" width="300" max-width="300" variant="solo" label="Username"
-                v-model="username" density="compact"></v-text-field>
-              <v-text-field class="mx-auto" width="300" max-width="300" variant="solo" label="Token" v-model="token"
-                density="compact"></v-text-field>
-              <v-btn width="300" class="mx-auto" color="#000" @click="onSubmit" :loading="isSubmitting">
-                <div class="text-white">
-
-                  Submit
-                </div>
+            <div
+              class="d-flex flex-column justify-center"
+              style="margin-top: 4.25rem"
+            >
+              <v-text-field
+                class="mx-auto"
+                width="300"
+                max-width="300"
+                variant="solo"
+                label="Username"
+                v-model="username"
+                density="compact"
+              ></v-text-field>
+              <v-text-field
+                class="mx-auto"
+                width="300"
+                max-width="300"
+                variant="solo"
+                label="Token"
+                v-model="token"
+                density="compact"
+              ></v-text-field>
+              <v-btn
+                width="300"
+                class="mx-auto"
+                color="#000"
+                @click="onSubmit"
+                :loading="isSubmitting"
+              >
+                <div class="text-white">Submit</div>
               </v-btn>
             </div>
-            <v-card v-if="link" max-width="300" class="mx-auto mt-4 text-center">
-              <a v-if="link" :href="link" rel="noopener noreferrer">Go to Event</a>
+            <v-card
+              v-if="link"
+              max-width="300"
+              class="mx-auto mt-4 text-center"
+            >
+              <div class="linkA">
+                <a v-if="link" :href="link" rel="noopener noreferrer"
+                  >Go to Event</a
+                >
+              </div>
             </v-card>
           </div>
         </div>
@@ -85,91 +138,102 @@
         <div v-else class="empty-state">
           <p>No upcoming events at this moment. Stay tuned!</p>
         </div>
-
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import moment from 'moment'
-import { computed } from 'vue'
+import moment from "moment";
+import { computed } from "vue";
 
-const route = useRoute()
-const query = route.query
+const route = useRoute();
+const query = route.query;
 
-const { data, pending, error }: any = await useFetch('/api/event')
-const token = ref('')
-const username = ref('')
-const isSubmitting = ref(false)
-const link = ref('')
+const { data, pending, error }: any = await useFetch("/api/event");
+const token = ref("");
+const username = ref("");
+const isSubmitting = ref(false);
+const link = ref("");
 
 const onSubmit = async () => {
-  if (!token.value) return
-  isSubmitting.value = true
+  if (!token.value) return;
+  isSubmitting.value = true;
   try {
-    const res: any = await $fetch('/api/trans')
-    console.log(res)
-    const events = res?.events || []
+    const res: any = await $fetch("/api/trans");
+    console.log(res);
+    const events = res?.events || [];
 
     // Check if the username exists in the retrieved data and get its link
-    const found = events.find((e: any) => e.username === username.value && e.reffer === token.value)
+    const found = events.find(
+      (e: any) => e.username === username.value && e.reffer === token.value,
+    );
     if (found && found.link) {
-      let url = found.link
-      if (!url.startsWith('http://') && !url.startsWith('https://')) {
-        url = 'https://' + url
+      let url = found.link;
+      if (!url.startsWith("http://") && !url.startsWith("https://")) {
+        url = "https://" + url;
       }
-      link.value = url
+      link.value = url;
     } else {
-      alert('Username not found or link is unavailable.')
+      alert("Username not found or link is unavailable.");
     }
   } catch (err) {
-    console.error('Failed to verify username', err)
-    alert('An error occurred during verification.')
+    console.error("Failed to verify username", err);
+    alert("An error occurred during verification.");
   } finally {
-    isSubmitting.value = false
+    isSubmitting.value = false;
   }
-}
+};
 
 const targetEvent = computed(() => {
-  const events: any = data.value?.events || []
+  const events: any = data.value?.events || [];
   if (events.length > 0) {
-    const now = new Date()
+    const now = new Date();
     // Find future events
-    const upcoming = events.filter((e: any) => e.endDate && new Date(e.endDate) > now)
+    const upcoming = events.filter(
+      (e: any) => e.endDate && new Date(e.endDate) > now,
+    );
     if (upcoming.length > 0) {
-      upcoming.sort((a: any, b: any) => new Date(a.endDate).getTime() - new Date(b.endDate).getTime())
-      return upcoming[0]
+      upcoming.sort(
+        (a: any, b: any) =>
+          new Date(a.endDate).getTime() - new Date(b.endDate).getTime(),
+      );
+      return upcoming[0];
     }
-    return events[0]
+    return events[0];
   }
-  return null
-})
+  return null;
+});
 
 const time = computed(() => {
   if (targetEvent.value && targetEvent.value.startDate) {
-    const eventDate = new Date(targetEvent.value.startDate)
-    return Math.max(0, eventDate.getTime() - new Date().getTime())
+    const eventDate = new Date(targetEvent.value.startDate);
+    return Math.max(0, eventDate.getTime() - new Date().getTime());
   }
-  return 0
-})
+  return 0;
+});
 
-const currentTime = ref(new Date().getTime())
-let timer: any = null
+const currentTime = ref(new Date().getTime());
+let timer: any = null;
 
 onMounted(() => {
-  currentTime.value = new Date().getTime()
+  currentTime.value = new Date().getTime();
   timer = setInterval(() => {
-    currentTime.value = new Date().getTime()
-  }, 100) // update fast for smooth percentage transition
-})
+    currentTime.value = new Date().getTime();
+  }, 100); // update fast for smooth percentage transition
+});
 
 onUnmounted(() => {
-  if (timer) clearInterval(timer)
-})
+  if (timer) clearInterval(timer);
+});
 
 const progressPercentage = computed(() => {
-  if (!targetEvent.value || !targetEvent.value.startDate || !targetEvent.value.endDate) return 0;
+  if (
+    !targetEvent.value ||
+    !targetEvent.value.startDate ||
+    !targetEvent.value.endDate
+  )
+    return 0;
   const start = new Date(targetEvent.value.startDate).getTime();
   const end = new Date(targetEvent.value.endDate).getTime();
   const now = currentTime.value;
@@ -178,15 +242,15 @@ const progressPercentage = computed(() => {
   if (now >= end) return 100;
 
   return ((now - start) / (end - start)) * 100;
-})
+});
 
 const formatTime = (value: number) => {
-  return value < 10 ? `0${value}` : value.toString()
-}
+  return value < 10 ? `0${value}` : value.toString();
+};
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap");
 
 .hero-container {
   position: relative;
@@ -194,7 +258,7 @@ const formatTime = (value: number) => {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Outfit', sans-serif;
+  font-family: "Outfit", sans-serif;
   color: #000;
   overflow: hidden;
 }
@@ -274,7 +338,7 @@ const formatTime = (value: number) => {
 
 .event-header {
   text-align: center;
-  margin-bottom: 4rem;
+  margin-bottom: 1rem;
   animation: fadeUp 1s ease-out forwards;
 }
 
@@ -328,15 +392,17 @@ const formatTime = (value: number) => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-    box-shadow 0.4s ease, border-color 0.4s ease;
+  transition:
+    transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    box-shadow 0.4s ease,
+    border-color 0.4s ease;
 }
 
-.time-card:hover {
+/* .time-card:hover {
   transform: translateY(-10px);
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), 0 0 20px rgba(167, 112, 239, 0.2);
   border-color: rgba(167, 112, 239, 0.3);
-}
+} */
 
 .progress-section {
   width: 100%;
@@ -414,5 +480,26 @@ const formatTime = (value: number) => {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.linkA {
+  padding: 0.55rem;
+  text-decoration: none;
+}
+
+a:link {
+  color: black; /* Unvisited link color */
+}
+
+a:visited {
+  color: black; /* Visited link color */
+}
+
+a:hover {
+  color: black; /* Color on mouse over */
+}
+
+a:active {
+  color: black; /* Color the moment it is clicked */
 }
 </style>

@@ -9,9 +9,7 @@ export default defineNuxtConfig({
       meta: [
         { name: "viewport", content: "width=device-width, initial-scale=1" },
       ],
-      link: [
-        { rel: 'icon', type: 'image/x-icon', href: '/icon-logo.png' },
-      ],
+      link: [{ rel: "icon", type: "image/x-icon", href: "/icon-logo.ico" }],
     },
   },
   vite: {
@@ -19,7 +17,12 @@ export default defineNuxtConfig({
       chunkSizeWarningLimit: 2000,
       rollupOptions: {
         onwarn(warning, warn) {
-          if (warning.message.includes("dynamic import will not move module into another chunk")) return;
+          if (
+            warning.message.includes(
+              "dynamic import will not move module into another chunk",
+            )
+          )
+            return;
           warn(warning);
         },
       },
