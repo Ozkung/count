@@ -45,18 +45,18 @@
               </div>
 
             </div>
+            <div v-if="formatTime(minutes) > 0" class="mt-8 d-flex flex-column justify-center">
+              <v-text-field class="mx-auto" width="300" max-width="300" variant="solo" label="Username" v-model="username"
+                density="compact"></v-text-field>
+              <v-text-field class="mx-auto" width="300" max-width="300" variant="solo" label="Token" v-model="token"
+                density="compact"></v-text-field>
+              <v-btn width="300" class="mx-auto" color="#3F51B5" @click="onSubmit" :loading="isSubmitting">Submit</v-btn>
+            </div>
+            <v-card max-width="300" class="mx-auto mt-4 text-center">
+  
+              <a v-if="link" :href="link" rel="noopener noreferrer">Go to Event</a>
+            </v-card>
           </Countdown>
-          <div class="mt-8 d-flex flex-column justify-center">
-            <v-text-field class="mx-auto" width="300" max-width="300" variant="solo" label="Username" v-model="username"
-              density="compact"></v-text-field>
-            <v-text-field class="mx-auto" width="300" max-width="300" variant="solo" label="Token" v-model="token"
-              density="compact"></v-text-field>
-            <v-btn width="300" class="mx-auto" color="#3F51B5" @click="onSubmit" :loading="isSubmitting">Submit</v-btn>
-          </div>
-          <v-card max-width="300" class="mx-auto mt-4 text-center">
-
-            <a v-if="link" :href="link" rel="noopener noreferrer">Go to Event</a>
-          </v-card>
         </div>
       </div>
 
@@ -324,3 +324,4 @@ const formatTime = (value: number) => {
   }
 }
 </style>
+
