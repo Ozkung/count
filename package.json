@@ -1,0 +1,31 @@
+{
+  "name": "countdown",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@sidebase/nuxt-auth": "^1.2.0",
+    "bcrypt": "^6.0.0",
+    "bcrypt-ts": "^8.0.1",
+    "lodash": "^4.17.23",
+    "moment": "^2.30.1",
+    "mongodb": "^7.1.0",
+    "next-auth": "^4.21.1",
+    "nuxt": "^4.3.1",
+    "nuxt-countdown": "^1.2.1",
+    "referral-codes": "^3.0.0",
+    "vue": "^3.5.28",
+    "vue-router": "^4.6.4",
+    "vuetify-nuxt-module": "^0.19.5"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "@types/node": "^25.3.3"
+  }
+}
