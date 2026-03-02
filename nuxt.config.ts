@@ -5,7 +5,7 @@ export default defineNuxtConfig({
   modules: ["vuetify-nuxt-module", "@sidebase/nuxt-auth", "nuxt-countdown"],
   app: {
     head: {
-      title: "CSTD",
+      title: "13th CSTD Thailand Dance Grand Prix 2026D",
       meta: [
         { name: "viewport", content: "width=device-width, initial-scale=1" },
       ],
