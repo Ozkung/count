@@ -334,6 +334,7 @@ const formatTime = (value: number) => {
   flex-direction: column;
   align-items: center;
   width: 100%;
+  padding: 2.25rem;
 }
 
 .event-header {
