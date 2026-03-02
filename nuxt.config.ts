@@ -3,6 +3,17 @@ export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
   modules: ["vuetify-nuxt-module", "@sidebase/nuxt-auth", "nuxt-countdown"],
+  vite: {
+    build: {
+      chunkSizeWarningLimit: 2000,
+      rollupOptions: {
+        onwarn(warning, warn) {
+          if (warning.message.includes("dynamic import will not move module into another chunk")) return;
+          warn(warning);
+        },
+      },
+    },
+  },
   vuetify: {
     moduleOptions: {
       /* module specific options */
@@ -25,10 +36,10 @@ export default defineNuxtConfig({
   //   },
   // },
   auth: {
+    baseURL: process.env.AUTH_ORIGIN || "http://localhost:3000",
     provider: {
       type: "authjs", // or 'local', 'refresh'
     },
-    // Do not set baseURL here if using AUTH_ORIGIN env var
   },
   runtimeConfig: {
     authOrigin: process.env.AUTH_ORIGIN,
